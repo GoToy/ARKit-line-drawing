@@ -15,7 +15,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     var previousPoint: SCNVector3?
     @IBOutlet weak var button: UIButton!
-    var lineColor = UIColor.white
+    var planeColor = UIColor.red
     
     var buttonHighlighted = false
     
@@ -73,10 +73,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         if buttonHighlighted {
             if let previousPoint = previousPoint {
-                let line = lineFrom(vector: previousPoint, toVector: currentPosition)
-                let lineNode = SCNNode(geometry: line)
-                lineNode.geometry?.firstMaterial?.diffuse.contents = lineColor
-                sceneView.scene.rootNode.addChildNode(lineNode)
+                let plane = SCNPlane(width: 0.05, height: 0.05)
+                planeFrom(vector: previousPoint, toVector: currentPosition)
+                let planeNode = SCNNode(geometry: plane)
+                planeNode.geometry?.firstMaterial?.diffuse.contents = planeColor
+                sceneView.scene.rootNode.addChildNode(planeNode)
             }
         }
         previousPoint = currentPosition
@@ -96,7 +97,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
     
-    func lineFrom(vector vector1: SCNVector3, toVector vector2: SCNVector3) -> SCNGeometry {
+    func planeFrom(vector vector1: SCNVector3, toVector vector2: SCNVector3) -> SCNGeometry {
         
         let indices: [Int32] = [0, 1]
         
