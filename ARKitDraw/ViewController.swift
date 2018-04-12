@@ -73,9 +73,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         if buttonHighlighted {
             if let previousPoint = previousPoint {
-                let plane = SCNPlane(width: 0.05, height: 0.05)
-                planeFrom(vector: previousPoint, toVector: currentPosition)
+                let plane = SCNPlane(width: 0.0005, height: 0.0005)
+                //let plane = planeFrom(vector: previousPoint, toVector: currentPosition)
+                
                 let planeNode = SCNNode(geometry: plane)
+                planeNode.position = SCNVector3Make(currentPosition.x, currentPosition.y, currentPosition.z)
+                // planeNode.geometry = planeGeometry
                 planeNode.geometry?.firstMaterial?.diffuse.contents = planeColor
                 sceneView.scene.rootNode.addChildNode(planeNode)
             }
@@ -103,6 +106,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         let source = SCNGeometrySource(vertices: [vector1, vector2])
         let element = SCNGeometryElement(indices: indices, primitiveType: .line)
+    //    element.pointSize = 100
+    
+        
         
         return SCNGeometry(sources: [source], elements: [element])
         
